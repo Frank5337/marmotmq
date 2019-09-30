@@ -20,7 +20,7 @@ public class NetWork implements Runnable {
 
             while (true) {
 
-                System.out.println(QueneFactory.getQuene("quene1"));
+                System.out.println("quene1:"+QueneFactory.getQuene("quene1"));
 
                 Socket socket = serverSocket.accept();
                 InputStream inputStream = null;
@@ -42,16 +42,17 @@ public class NetWork implements Runnable {
                     System.out.println(">>>>>>>>>>>>>>>>>>>>");
 
                     String queneName = requestBody[0];
-                    if (QueneFactory.getQuene(queneName) == null){
-                        synchronized (this){
-                            if (QueneFactory.getQuene(queneName) == null){
+
+                    if (QueneFactory.getQuene(queneName) == null) {
+                        synchronized (this) {
+                            if (QueneFactory.getQuene(queneName) == null) {
                                 QueneFactory.creatQuene(queneName);
                             }
-                            QueneFactory.getQuene(queneName).add(requestBody[2]);
                         }
-                    }else {
-                        QueneFactory.getQuene(queneName).add(requestBody[2]);
                     }
+
+                    QueneFactory.getQuene(queneName).add(requestBody[2]);
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

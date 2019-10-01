@@ -38,5 +38,8 @@ public class MarmotmqApplicationTests {
         outputStream.write(bytes,0,requestLength);
 
 
+        OutputStream outputStream2 = socket.getOutputStream();
+
+        System.out.println(outputStream == outputStream2);
     }
 }

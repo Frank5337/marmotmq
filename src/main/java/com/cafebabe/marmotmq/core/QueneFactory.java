@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class QueneFactory {
 
-    private static ConcurrentHashMap<String, ConcurrentLinkedQueue<String>> queneFactory = new ConcurrentHashMap<>();
+    private static volatile ConcurrentHashMap<String, ConcurrentLinkedQueue<String>> queneFactory = new ConcurrentHashMap<>();
 
     public static ConcurrentLinkedQueue<String> getQuene(String queneName){
 

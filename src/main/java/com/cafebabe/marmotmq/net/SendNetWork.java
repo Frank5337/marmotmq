@@ -55,6 +55,7 @@ public class SendNetWork implements Runnable {
             try {
                 OutputStream outputStream = listener.getOutputStream();
                 outputStream.write(msg.getBytes());
+                System.out.println("write: "+msg+" OK!");
             } catch (IOException e) {
                 e.printStackTrace();
             }

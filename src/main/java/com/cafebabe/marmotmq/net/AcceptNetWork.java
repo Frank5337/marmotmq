@@ -20,9 +20,6 @@ public class AcceptNetWork implements Runnable {
 
             while (true) {
 
-                //sout
-                System.out.println("quene1:"+QueneFactory.getQuene("quene1"));
-
                 Socket socket = serverSocket.accept();
 
                 InputStream inputStream = null;
@@ -60,6 +57,10 @@ public class AcceptNetWork implements Runnable {
                         sendMsg2Quene(queneName,requestBody[2]);
                     }
 
+                    //sout
+                    System.out.println("quene1:"+QueneFactory.getQuene("quene1"));
+                    if (QueneFactory.getQuene("quene1") != null)
+                        System.out.println(QueneFactory.getQuene("quene1").size());
 
                 } catch (Exception e) {e.printStackTrace();}
 

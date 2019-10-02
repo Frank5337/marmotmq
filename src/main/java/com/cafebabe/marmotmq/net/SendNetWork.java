@@ -2,6 +2,7 @@ package com.cafebabe.marmotmq.net;
 
 import com.cafebabe.marmotmq.core.ListenersMap;
 import com.cafebabe.marmotmq.core.QueneFactory;
+import com.cafebabe.marmotmq.lib.Listener;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,7 +19,7 @@ public class SendNetWork implements Runnable {
 
     private ConcurrentLinkedQueue<String> msgQuene;
 
-    private ConcurrentLinkedQueue<Socket> listeners;
+    private ConcurrentLinkedQueue<Listener> listeners;
 
     SendNetWork(String queneName){
         this.queneName = queneName;
@@ -51,15 +52,29 @@ public class SendNetWork implements Runnable {
 
     private void sendMsg(String msg) {
 
-        for (Socket listener : listeners) {
+        for (Listener listener : listeners) {
             try {
-                OutputStream outputStream = listener.getOutputStream();
+                OutputStream outputStream = listener.getSocket().getOutputStream();
                 outputStream.write(msg.getBytes());
                 System.out.println("write: "+msg+" OK!");
+                //发送成功则将失败次数置零
+                listener.setFialTimes(0);
             } catch (IOException e) {
                 e.printStackTrace();
+                fail2Send(listener);
             }
         }
 
+    }
+
+
+    private void fail2Send(Listener listener){
+
+        if (listener.getFialTimes() > 15){
+            listeners.remove(listener);
+            return;
+        }
+
+        listener.setFialTimes(listener.getFialTimes()+1);
     }
 }

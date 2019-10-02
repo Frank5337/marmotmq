@@ -8,8 +8,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.*;
 import java.net.Socket;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class MarmotmqApplicationTests {
 
     @Test

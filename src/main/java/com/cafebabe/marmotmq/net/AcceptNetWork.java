@@ -22,6 +22,8 @@ public class AcceptNetWork implements Runnable {
 
                 Socket socket = serverSocket.accept();
 
+                System.out.println(socket.getInetAddress());
+
                 InputStream inputStream = null;
                 try {
                     //获取输入流
@@ -41,20 +43,13 @@ public class AcceptNetWork implements Runnable {
                     //发送：queneName \r\n lengthOfMsg \r\n msg
                     if (requestBody.length == 1){
                         //注册监听
-
-                        //无此队列则放弃
-                        if (QueneFactory.getQuene(queneName) == null){
-                            socket.close();
-                            continue;
-                        }
-
                         socket.setKeepAlive(true);
                         ListenersMap.addListener(queneName,socket);
-
 
                     }else {
                         //发送消息
                         sendMsg2Quene(queneName,requestBody[2]);
+
                     }
 
                     //sout

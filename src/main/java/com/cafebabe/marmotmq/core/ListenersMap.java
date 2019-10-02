@@ -1,5 +1,7 @@
 package com.cafebabe.marmotmq.core;
 
+import com.cafebabe.marmotmq.lib.Listener;
+
 import java.net.Socket;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -10,10 +12,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class ListenersMap {
 
-    private static volatile ConcurrentHashMap<String, ConcurrentLinkedQueue<Socket>> listenersMap = new ConcurrentHashMap<>();
+    private static volatile ConcurrentHashMap<String, ConcurrentLinkedQueue<Listener>> listenersMap = new ConcurrentHashMap<>();
 
     //获取一条队列的所有监听者
-    public static ConcurrentLinkedQueue<Socket> getListeners(String queneName){
+    public static ConcurrentLinkedQueue<Listener> getListeners(String queneName){
 
         return listenersMap.get(queneName);
 
@@ -25,12 +27,12 @@ public class ListenersMap {
         if (listenersMap.get(queneName) == null){
             synchronized (ListenersMap.class){
                 if (listenersMap.get(queneName) == null){
-                    listenersMap.put(queneName,new ConcurrentLinkedQueue<Socket>());
+                    listenersMap.put(queneName,new ConcurrentLinkedQueue<Listener>());
                 }
             }
         }
 
-        listenersMap.get(queneName).add(socket);
+        listenersMap.get(queneName).add(new Listener(socket));
 
     }
 
